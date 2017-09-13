@@ -1,0 +1,873 @@
+﻿<process name="Psexec2" version="1.0" bpversion="5.0.24.0" narrative="Generate an object with a page per PStools application.  Each page should accept the maximum possible switch inputs (with documentation on which is required).  Always agree to the EULA and never show the banner in any case.&#xD;&#xA;Assumptions: Always assume the a remote machine, username, and password will be required and supplied with every request.  Additional switches may be required and will be specified for each use case&#xD;&#xA;" type="object" runmode="Exclusive" preferredid="96ea29dc-b718-48db-b6f1-832462f68ea0">
+  <appdef>
+    <element name="Application Root">
+      <id>3dc6ec0c-36f5-4c1e-b1dc-27d0237536d3</id>
+      <type>Application</type>
+      <basetype>Application</basetype>
+      <datatype>unknown</datatype>
+      <diagnose>False</diagnose>
+    </element>
+  </appdef>
+  <view>
+    <camerax>0</camerax>
+    <cameray>0</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="6323ea92-ded0-4e10-bf11-a7af795047c7" name="Psexec2" type="SubSheetInfo">
+    <narrative>
+    </narrative>
+    <displayx>-495</displayx>
+    <displayy>-885</displayy>
+    <displaywidth>150</displaywidth>
+    <displayheight>90</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="18b872bb-5a57-437d-ab17-69d840c6ffd6" name="Start" type="Start">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-75</displayx>
+    <displayy>-945</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>55cd6906-fb50-41a0-a081-817aeb879753</onsuccess>
+  </stage>
+  <stage stageid="7b826df9-9028-4f3a-bb87-82d9c41e4324" name="Return procs to alert" type="End">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-240</displayx>
+    <displayy>-195</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+  </stage>
+  <stage stageid="359ee621-e2fb-4d9b-b1fc-08d80c32a85c" name="PsToolDir" type="Data">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>300</displayx>
+    <displayy>-855</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\PsTools</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="8e5befee-c688-4e13-b6df-d22c8d58283f" name="CmdStr" type="Data">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>300</displayx>
+    <displayy>-915</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\Windows\System32\cmd.exe</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="55cd6906-fb50-41a0-a081-817aeb879753" name="GetCSVData" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-75</displayx>
+    <displayy>-885</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="CSV File Path" narrative="The full path to the CSV file" expr="[PSinfoCsv]" />
+      <input type="flag" name="First Line Is Header" narrative="Set True if you want to treat the first line as a header" expr="&quot;True&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="CSV Values" narrative="The collection populated with the values of the CSV file" stage="CSV Values" />
+    </outputs>
+    <onsuccess>a4cb4bb1-bcdc-41e2-a806-0833ac160b34</onsuccess>
+    <resource object="Utility - File Management" action="Get CSV Text As Collection" />
+  </stage>
+  <stage stageid="65447e6a-d2f6-4b1b-96ee-7fd5629f3fb3" name="CSV Values" type="Collection">
+    <narrative>
+    </narrative>
+    <displayx>120</displayx>
+    <displayy>-930</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a595e04c-29ec-4f24-a45c-4c4069e397b1" name="PSinfoCsv" type="Data">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>285</displayx>
+    <displayy>-795</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">C:\PsTools\CSV\psexecinput.csv</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="87d11677-6057-4de1-b4b7-dec297d7ea88" name="ParseInput" type="LoopStart">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-75</displayx>
+    <displayy>-765</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>91103095-5c75-489e-83ed-8ee4bbf84557</onsuccess>
+    <groupid>8d114239-8e42-47cc-87e9-66d34d7d5ca8</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>CSV Values</loopdata>
+  </stage>
+  <stage stageid="3bfbad48-b6ba-4ecb-950a-5483048e5906" name="ParseInput" type="LoopEnd">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>150</displayx>
+    <displayy>-315</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>76b3cc4b-c214-4d26-bd01-9fccf135569a</onsuccess>
+    <groupid>8d114239-8e42-47cc-87e9-66d34d7d5ca8</groupid>
+  </stage>
+  <stage stageid="1b3d99ff-9fd9-4f29-834a-91617579457c" name="ExeCmd" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-345</displayx>
+    <displayy>-615</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Application" narrative="The application or short cut to start" expr="[CmdStr]" />
+      <input type="text" name="Arguments" narrative="Any arguments needed for the app" expr="&quot;cmd /k cd &quot;&amp;[PsToolDir]&amp;&quot; &amp;&amp; psexec \\&quot;&amp;[CSV Values.Machine]&amp;&quot; -u &quot;&amp;[CSV Values.User]&amp;&quot; -p &quot;&amp;[CSV Values.Password]&amp;&quot; -accepteula -nobanner &quot;&amp;[CSV Values.Command]&amp;&quot; 2&gt; errorlog.csv &gt;2 &amp;&amp; exit&quot;" />
+    </inputs>
+    <onsuccess>a2ec73ee-568b-48ea-8d0e-7b8cf926f81d</onsuccess>
+    <resource object="Utility - Environment" action="Start Process" />
+  </stage>
+  <stage stageid="8624a4d8-2acc-4863-bfeb-61f7ea04ef46" name="GetOutputText" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>0</displayx>
+    <displayy>-660</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Name" narrative="The full path the file to read the text from" expr="[PsToolDir]&amp;&quot;\errorlog.csv&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" narrative="True if successful" stage="" />
+      <output type="text" name="Message" narrative="An error message if unsuccessful" stage="" />
+      <output type="text" name="Text" narrative="The text of the file" stage="ResultText" />
+    </outputs>
+    <onsuccess>af730100-0159-40cf-811c-457b6f6df0aa</onsuccess>
+    <resource object="Utility - File Management" action="Read All Text from File" />
+  </stage>
+  <stage stageid="26c4963f-c4d0-4efe-aae8-87b26420dd4b" name="ResultText" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>420</displayx>
+    <displayy>-585</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue xml:space="preserve">0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="ca15075e-043f-4d21-ba41-d20bddb301fe" name="CheckFileLock" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-75</displayx>
+    <displayy>-615</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Path" narrative="Path of the file to check if locked or not." expr="[PsToolDir]&amp;&quot;\errorlog.csv&quot;&#xA;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Locked" narrative="Whether or not the file is locked." stage="FileLocked" />
+    </outputs>
+    <onsuccess>aa0d8453-2108-4357-a5ff-7f23773823b5</onsuccess>
+    <resource object="Utility - File Management" action="Check File Lock" />
+  </stage>
+  <stage stageid="8a3b9094-7547-41a0-a895-4e6a9da2db27" name="FileLocked" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>195</displayx>
+    <displayy>-765</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="9df05da4-c510-47c9-915e-432d204fce35" name="DelOutTxt" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-480</displayx>
+    <displayy>-570</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Name" narrative="The full path to the file to delete" expr="[PsToolDir]&amp;&quot;\errorlog.csv&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" narrative="True if successful" stage="isdeleted" />
+      <output type="text" name="Message" narrative="An error message if unsuccessful" stage="" />
+    </outputs>
+    <onsuccess>25345ea2-a3ff-4fdf-855d-1b7d0a879bdb</onsuccess>
+    <resource object="Utility - File Management" action="Delete File" />
+  </stage>
+  <stage stageid="fe158274-665f-4931-a954-84c10f29ef32" name="CheckOutTxtExist" type="Decision">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-480</displayx>
+    <displayy>-660</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <decision expression="[Exists]" />
+    <ontrue>9df05da4-c510-47c9-915e-432d204fce35</ontrue>
+    <onfalse>eca1d069-389c-4952-b248-2f87ef6fdaaa</onfalse>
+  </stage>
+  <stage stageid="aa0d8453-2108-4357-a5ff-7f23773823b5" name="Locked?" type="Decision">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-75</displayx>
+    <displayy>-435</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <decision expression="[FileLocked]" />
+    <ontrue>c4a20b72-3aea-4853-b936-e45232d6cac7</ontrue>
+    <onfalse>ae274a1f-267d-41ca-be19-13c15bb273e3</onfalse>
+  </stage>
+  <stage stageid="91103095-5c75-489e-83ed-8ee4bbf84557" name="CheckPrevOutputFile" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-75</displayx>
+    <displayy>-660</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Name" narrative="The name of the file to check" expr="[PsToolDir]&amp;&quot;\errorlog.csv&quot;" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Exists" narrative="True if the file exists" stage="Exists" />
+    </outputs>
+    <onsuccess>fe158274-665f-4931-a954-84c10f29ef32</onsuccess>
+    <resource object="Utility - File Management" action="File Exists" />
+  </stage>
+  <stage stageid="d3622c43-34e2-4def-936c-2776cda40252" name="Exists" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>120</displayx>
+    <displayy>-765</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="5ae58212-e9f0-4983-a553-f9e3059f76dc" name="isdeleted" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>285</displayx>
+    <displayy>-735</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>flag</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="25345ea2-a3ff-4fdf-855d-1b7d0a879bdb" name="Deleted ?" type="Decision">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-345</displayx>
+    <displayy>-555</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <decision expression="[isdeleted]" />
+    <ontrue>eca1d069-389c-4952-b248-2f87ef6fdaaa</ontrue>
+    <onfalse>15510896-8ff8-44cd-b766-21693602480b</onfalse>
+  </stage>
+  <stage stageid="8b4e5451-1ebe-444c-90c3-706db6cd69a4" name="Time Out1" type="WaitEnd">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-435</displayx>
+    <displayy>-480</displayy>
+    <displaywidth>30</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>9df05da4-c510-47c9-915e-432d204fce35</onsuccess>
+    <groupid>48e46f76-badd-480b-8922-519529156a8e</groupid>
+  </stage>
+  <stage stageid="15510896-8ff8-44cd-b766-21693602480b" name="Wait1" type="WaitStart">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-345</displayx>
+    <displayy>-465</displayy>
+    <displaywidth>30</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <groupid>48e46f76-badd-480b-8922-519529156a8e</groupid>
+    <choices />
+    <timeout>5</timeout>
+  </stage>
+  <stage stageid="85f8d485-e651-450a-852f-118aecb43c6b" name="Time Out2" type="WaitEnd">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-480</displayx>
+    <displayy>-435</displayy>
+    <displaywidth>30</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>9df05da4-c510-47c9-915e-432d204fce35</onsuccess>
+    <groupid>821cdf2d-0455-4210-8151-69ce0cfd90a7</groupid>
+  </stage>
+  <stage stageid="c4a20b72-3aea-4853-b936-e45232d6cac7" name="Wait2" type="WaitStart">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-180</displayx>
+    <displayy>-435</displayy>
+    <displaywidth>30</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <groupid>821cdf2d-0455-4210-8151-69ce0cfd90a7</groupid>
+    <choices />
+    <timeout>5</timeout>
+  </stage>
+  <stage stageid="af730100-0159-40cf-811c-457b6f6df0aa" name="Match String" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>135</displayx>
+    <displayy>-660</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Text" narrative="Text to search in" expr="[ResultText]" />
+      <input type="text" name="Search String" narrative="The text to search for" expr="&quot;with error code 0&quot;" />
+      <input type="number" name="Start Byte" narrative="Where in the string to search from" expr="1" />
+      <input type="number" name="Compare Method" narrative="1=text, 0=binary" expr="1" />
+    </inputs>
+    <outputs>
+      <output type="number" name="Position" narrative="The index of the sub text within the text or -1 if not found" stage="Position" />
+    </outputs>
+    <onsuccess>364e9f3f-bd4c-49a3-99a1-2229fbb1729b</onsuccess>
+    <resource object="Utility - Strings" action="InStr" />
+  </stage>
+  <stage stageid="78263da8-dc56-4a79-a9b3-2facf6cdf361" name="Position" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>435</displayx>
+    <displayy>-540</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2a92cb76-4743-48d0-af38-c7bef10d6d41" name="WriteResultInMainCollection" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>225</displayx>
+    <displayy>-585</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="Collection" narrative="The collection in which to set the value." expr="[Coll1]" />
+      <input type="text" name="Field Name" narrative="The name of the field in which to set the value" expr="&quot;Success Text&quot;" />
+      <input type="number" name="Row Index" narrative="The index of the row in which to set the value. The index is from 0 to N-1 (where N is the total number of rows in the collection)." expr="[counter]" />
+      <input type="text" name="New Value" narrative="The value as text to set." expr="[ResultText]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Updated Collection" narrative="The collection which now has the value set." stage="Coll1" />
+    </outputs>
+    <onsuccess>366c2841-b276-4991-a405-a4fe4577671f</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Set Collection Field" />
+  </stage>
+  <stage stageid="76b3cc4b-c214-4d26-bd01-9fccf135569a" name="ConvertCollectioninCSV" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-15</displayx>
+    <displayy>-315</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="Input Collection" narrative="The collection to be converted to CSV" expr="[Coll1]" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Collection CSV" narrative="The CSV representation of the Input Collection" stage="Collection CSV" />
+    </outputs>
+    <onsuccess>2fb878be-ef7c-4315-ad1c-b88d14639ee1</onsuccess>
+    <resource object="Utility - Strings" action="Get Collection as CSV" />
+  </stage>
+  <stage stageid="5798f387-5b1b-4d20-be7c-d5fcc5751153" name="Collection CSV" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>300</displayx>
+    <displayy>-960</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="2fb878be-ef7c-4315-ad1c-b88d14639ee1" name="WriteMainCSV" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-135</displayx>
+    <displayy>-315</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="File Name" narrative="The full path to the file to write the text to" expr="[PsToolDir]&amp;&quot;\CSV\psexecoutput.csv&quot;" />
+      <input type="text" name="Text" narrative="The text to write to the file" expr="[Collection CSV]" />
+    </inputs>
+    <outputs>
+      <output type="flag" name="Success" narrative="True if successful" stage="" />
+      <output type="text" name="Message" narrative="An error message if unsuccessful" stage="" />
+    </outputs>
+    <onsuccess>11ed5514-2a4d-4436-9f69-f45f0575e57a</onsuccess>
+    <resource object="Utility - File Management" action="Write Text File" />
+  </stage>
+  <stage stageid="53e35583-2ded-466b-b99f-be6604635b3c" name="counter" type="Data">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>105</displayx>
+    <displayy>-720</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>number</datatype>
+    <initialvalue>0</initialvalue>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="7dd3c05f-9c86-4b6f-9518-b38fce21e6d9" name="Calc1" type="Calculation">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>150</displayx>
+    <displayy>-390</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>3bfbad48-b6ba-4ecb-950a-5483048e5906</onsuccess>
+    <calculation expression="[counter]+1" stage="counter" />
+  </stage>
+  <stage stageid="0aea12c5-f775-4229-9143-2ea341d022c8" name="Coll1" type="Collection">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>120</displayx>
+    <displayy>-885</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="a4cb4bb1-bcdc-41e2-a806-0833ac160b34" name="Multi1" type="MultipleCalculation">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-75</displayx>
+    <displayy>-825</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>87d11677-6057-4de1-b4b7-dec297d7ea88</onsuccess>
+    <steps>
+      <calculation expression="[CSV Values]" stage="Coll1" />
+    </steps>
+  </stage>
+  <stage stageid="2abaa5e8-802b-4bac-ad61-6cef21012f1b" name="Multi2" type="MultipleCalculation">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>60</displayx>
+    <displayy>-390</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>7dd3c05f-9c86-4b6f-9518-b38fce21e6d9</onsuccess>
+    <steps>
+      <calculation expression="[Coll1]" stage="Coll3" />
+      <calculation expression="[Coll2]" stage="Coll1" />
+      <calculation expression="[Coll3]" stage="Coll1" />
+    </steps>
+  </stage>
+  <stage stageid="17979386-aec3-43e5-b7cc-ba48e846c7d2" name="Coll2" type="Collection">
+    <narrative>
+    </narrative>
+    <displayx>195</displayx>
+    <displayy>-825</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="067cf1e0-bc38-402c-9c02-e37e99876423" name="Coll3" type="Collection">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>120</displayx>
+    <displayy>-825</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c294739d-abc1-4312-be2b-47899883d285" name="Time Out3" type="WaitEnd">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-150</displayx>
+    <displayy>-615</displayy>
+    <displaywidth>30</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>ca15075e-043f-4d21-ba41-d20bddb301fe</onsuccess>
+    <groupid>8d21e01b-3684-4e8d-bcd5-02c8fd3a8ecf</groupid>
+  </stage>
+  <stage stageid="a2ec73ee-568b-48ea-8d0e-7b8cf926f81d" name="Wait3" type="WaitStart">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-240</displayx>
+    <displayy>-615</displayy>
+    <displaywidth>30</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <groupid>8d21e01b-3684-4e8d-bcd5-02c8fd3a8ecf</groupid>
+    <choices />
+    <timeout>5</timeout>
+  </stage>
+  <stage stageid="11ed5514-2a4d-4436-9f69-f45f0575e57a" name="KillCmd" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-240</displayx>
+    <displayy>-315</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Process Name" narrative="The name of the process to kill" expr="&quot;cmd&quot;" />
+    </inputs>
+    <onsuccess>7b826df9-9028-4f3a-bb87-82d9c41e4324</onsuccess>
+    <resource object="Utility - Environment" action="Kill Process" />
+  </stage>
+  <stage stageid="ca05bdd3-21c8-428f-8a34-f7ace2271fe4" name="WriteResultInMainCollection" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>225</displayx>
+    <displayy>-540</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="Collection" narrative="The collection in which to set the value." expr="[Coll1]" />
+      <input type="text" name="Field Name" narrative="The name of the field in which to set the value" expr="&quot;Failure Text&quot;" />
+      <input type="number" name="Row Index" narrative="The index of the row in which to set the value. The index is from 0 to N-1 (where N is the total number of rows in the collection)." expr="[counter]" />
+      <input type="text" name="New Value" narrative="The value as text to set." expr="[ResultText]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Updated Collection" narrative="The collection which now has the value set." stage="Coll1" />
+    </outputs>
+    <onsuccess>db8799af-2daf-4920-a8cf-e23039bd8ef3</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Set Collection Field" />
+  </stage>
+  <stage stageid="364e9f3f-bd4c-49a3-99a1-2229fbb1729b" name="TrimResulttext" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>255</displayx>
+    <displayy>-660</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="String" narrative="String to format" expr="" />
+      <input type="text" name="Format" narrative="String containing the formatting to apply" expr="Replace([ResultText], &quot;\&quot;&quot;\&quot;,&quot;&quot; )" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Formatted String" stage="ResultText" />
+    </outputs>
+    <onsuccess>78f3445d-9c7b-4f46-8e90-50eab9789d68</onsuccess>
+    <resource object="Utility - Strings" action="Format" />
+  </stage>
+  <stage stageid="ae274a1f-267d-41ca-be19-13c15bb273e3" name="Anchor2" type="Anchor">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>0</displayx>
+    <displayy>-435</displayy>
+    <displaywidth>10</displaywidth>
+    <displayheight>10</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>8624a4d8-2acc-4863-bfeb-61f7ea04ef46</onsuccess>
+  </stage>
+  <stage stageid="1f092e99-e8b1-46d6-aab3-6ed86c24d785" name="Switch : RE? BE?Succ?" type="ChoiceStart">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>345</displayx>
+    <displayy>-615</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <groupid>549a7191-0391-425b-a837-81907649debc</groupid>
+    <choices>
+      <choice expression="[CSV Values.Must Exist] = 1 AND [CSV Values.Must Not Exist] = 0 AND [Position] &gt; 1&#xA;&#xA; ">
+        <name>"Required existed ?"</name>
+        <distance>50</distance>
+        <ontrue>2a92cb76-4743-48d0-af38-c7bef10d6d41</ontrue>
+      </choice>
+      <choice expression="[CSV Values.Must Exist] = 0 AND [CSV Values.Must Not Exist] = 1 AND [Position] = 0&#xA;">
+        <name>"Banned existed?"</name>
+        <distance>100</distance>
+        <ontrue>ca05bdd3-21c8-428f-8a34-f7ace2271fe4</ontrue>
+      </choice>
+    </choices>
+  </stage>
+  <stage stageid="cd7c7ca6-91a1-4a21-a301-4885d85958e5" name="Otherwise1" type="ChoiceEnd">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>345</displayx>
+    <displayy>-465</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>488f68e9-6dc3-4399-b961-bc338f0fc998</onsuccess>
+    <groupid>549a7191-0391-425b-a837-81907649debc</groupid>
+  </stage>
+  <stage stageid="bc190b2c-07fb-489a-9409-161e7c36c473" name="Anchor3" type="Anchor">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>15</displayx>
+    <displayy>-585</displayy>
+    <displaywidth>10</displaywidth>
+    <displayheight>10</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>2abaa5e8-802b-4bac-ad61-6cef21012f1b</onsuccess>
+  </stage>
+  <stage stageid="6b87fae5-81e7-4156-b47e-3c15305b75a0" name="cal" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>420</displayx>
+    <displayy>-405</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="78f3445d-9c7b-4f46-8e90-50eab9789d68" name="Multicalculation for debug" type="MultipleCalculation">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>390</displayx>
+    <displayy>-660</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <onsuccess>1f092e99-e8b1-46d6-aab3-6ed86c24d785</onsuccess>
+    <steps>
+      <calculation expression="[CSV Values.Must Exist] = 1 AND [CSV Values.Must Not Exist] = 0 AND [Position] &gt; 0" stage="cal" />
+      <calculation expression="[CSV Values.Must Exist] = 0 AND [CSV Values.Must Not Exist] = 1 AND [Position] &gt; 0" stage="cal" />
+      <calculation expression="([CSV Values.Must Exist] = 1 AND [CSV Values.Must Not Exist] = 0 AND [Position] &gt; 0 ) =True AND ([CSV Values.Must Exist] = 0 AND [CSV Values.Must Not Exist] = 1 AND [Position] &lt; 0 ) =False" stage="cal" />
+      <calculation expression="[CSV Values.Must Exist]&amp;&quot; - &quot;&amp;[CSV Values.Must Not Exist]" stage="cal" />
+      <calculation expression="[CSV Values.Machine]" stage="Machine" />
+      <calculation expression="[CSV Values.Must Not Exist] &amp;&quot;-&quot;&amp;[CSV Values.Must Not Exist]" stage="must exits - not exist" />
+    </steps>
+  </stage>
+  <stage stageid="366c2841-b276-4991-a405-a4fe4577671f" name="WriteResultInMainCollection" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>75</displayx>
+    <displayy>-585</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="Collection" narrative="The collection in which to set the value." expr="[Coll1]" />
+      <input type="text" name="Field Name" narrative="The name of the field in which to set the value" expr="&quot;Success?&quot;" />
+      <input type="number" name="Row Index" narrative="The index of the row in which to set the value. The index is from 0 to N-1 (where N is the total number of rows in the collection)." expr="[counter]" />
+      <input type="text" name="New Value" narrative="The value as text to set." expr="&quot;1&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Updated Collection" narrative="The collection which now has the value set." stage="Coll1" />
+    </outputs>
+    <onsuccess>bc190b2c-07fb-489a-9409-161e7c36c473</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Set Collection Field" />
+  </stage>
+  <stage stageid="db8799af-2daf-4920-a8cf-e23039bd8ef3" name="WriteResultInMainCollection" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>75</displayx>
+    <displayy>-540</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="Collection" narrative="The collection in which to set the value." expr="[Coll1]" />
+      <input type="text" name="Field Name" narrative="The name of the field in which to set the value" expr="&quot;Success?&quot;" />
+      <input type="number" name="Row Index" narrative="The index of the row in which to set the value. The index is from 0 to N-1 (where N is the total number of rows in the collection)." expr="[counter]" />
+      <input type="text" name="New Value" narrative="The value as text to set." expr="&quot;0&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Updated Collection" narrative="The collection which now has the value set." stage="Coll1" />
+    </outputs>
+    <onsuccess>2abaa5e8-802b-4bac-ad61-6cef21012f1b</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Set Collection Field" />
+  </stage>
+  <stage stageid="228b0ea6-095c-4d84-ac24-f06be1c5790c" name="must exits - not exist" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>420</displayx>
+    <displayy>-465</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="c0e67eab-355c-426d-87b4-0b1fc6dcd4d8" name="Machine" type="Data">
+    <narrative>
+    </narrative>
+    <displayx>495</displayx>
+    <displayy>-525</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="488f68e9-6dc3-4399-b961-bc338f0fc998" name="WriteResultInMainCollection" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>225</displayx>
+    <displayy>-450</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="Collection" narrative="The collection in which to set the value." expr="[Coll1]" />
+      <input type="text" name="Field Name" narrative="The name of the field in which to set the value" expr="&quot;Failure Text&quot;" />
+      <input type="number" name="Row Index" narrative="The index of the row in which to set the value. The index is from 0 to N-1 (where N is the total number of rows in the collection)." expr="[counter]" />
+      <input type="text" name="New Value" narrative="The value as text to set." expr="[ResultText]" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Updated Collection" narrative="The collection which now has the value set." stage="Coll1" />
+    </outputs>
+    <onsuccess>793ab82c-940c-4d33-84be-e64b1e37880e</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Set Collection Field" />
+  </stage>
+  <stage stageid="793ab82c-940c-4d33-84be-e64b1e37880e" name="WriteResultInMainCollection" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>135</displayx>
+    <displayy>-450</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="collection" name="Collection" narrative="The collection in which to set the value." expr="[Coll1]" />
+      <input type="text" name="Field Name" narrative="The name of the field in which to set the value" expr="&quot;Success?&quot;" />
+      <input type="number" name="Row Index" narrative="The index of the row in which to set the value. The index is from 0 to N-1 (where N is the total number of rows in the collection)." expr="[counter]" />
+      <input type="text" name="New Value" narrative="The value as text to set." expr="&quot;0&quot;" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Updated Collection" narrative="The collection which now has the value set." stage="Coll1" />
+    </outputs>
+    <onsuccess>2abaa5e8-802b-4bac-ad61-6cef21012f1b</onsuccess>
+    <resource object="Utility - Collection Manipulation" action="Set Collection Field" />
+  </stage>
+  <stage stageid="eca1d069-389c-4952-b248-2f87ef6fdaaa" name="KillCmd" type="Action">
+    <loginhibit />
+    <narrative>
+    </narrative>
+    <displayx>-420</displayx>
+    <displayy>-615</displayy>
+    <displaywidth>60</displaywidth>
+    <displayheight>30</displayheight>
+    <font family="Segoe UI" size="10" style="Regular" color="000000" />
+    <inputs>
+      <input type="text" name="Process Name" narrative="The name of the process to kill" expr="&quot;cmd&quot;" />
+    </inputs>
+    <onsuccess>1b3d99ff-9fd9-4f29-834a-91617579457c</onsuccess>
+    <resource object="Utility - Environment" action="Kill Process" />
+  </stage>
+</process>

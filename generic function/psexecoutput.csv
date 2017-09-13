@@ -1,0 +1,19 @@
+Machine,User,Password,Command,Must Exist,Must Not Exist,Required existed?,Banned existed?,Success?,Success Text,Failure Text
+SDCFDWCL29,corp\svcrobot29,5EcuNuzE,netstat -an ^> C:\connections.txt,1,0,,,0,,"netstat exited with error code 1.
+"
+SDCFDWCL30,corp\svcrobot30,5EcuNuzE,ipconfig,1,0,,,1,"Connecting to SDCFDWCL30...Starting PSEXESVC service on SDCFDWCL30...Connecting with PsExec service on SDCFDWCL30...Starting ipconfig on SDCFDWCL30...
+ipconfig exited on SDCFDWCL30 with error code 0.
+",
+SDCFDWCL29,corp\svcrobot29,5EcuNuzE,ping google.com,1,0,,,1,"ping exited with error code 0.
+",
+SDCFDWCL32,corp\svcrobot32,5EcuNuzE,netstat -a,1,0,,,1,"Connecting to SDCFDWCL32...Starting PSEXESVC service on SDCFDWCL32...Connecting with PsExec service on SDCFDWCL32...Starting netstat on SDCFDWCL32...
+netstat exited on SDCFDWCL32 with error code 0.
+",
+SDCFDWCL32,corp\svcrobot32,5EcuNuzE,netstat -an > C:\connections.txt,1,0,,,1,"Connecting to SDCFDWCL32...Starting PSEXESVC service on SDCFDWCL32...Connecting with PsExec service on SDCFDWCL32...Starting netstat on SDCFDWCL32...
+netstat exited on SDCFDWCL32 with error code 0.
+",
+SDCFDWCL30,corp\svcrobot30,5EcuNuzE,whoami,1,0,,,1,"Connecting to SDCFDWCL30...Starting PSEXESVC service on SDCFDWCL30...Connecting with PsExec service on SDCFDWCL30...Starting whoami on SDCFDWCL30...
+whoami exited on SDCFDWCL30 with error code 0.
+",
+SDCFDWCL29,corp\svcrobot29,5EcuNuzE,whoami,1,0,,,1,"whoami exited with error code 0.
+",
